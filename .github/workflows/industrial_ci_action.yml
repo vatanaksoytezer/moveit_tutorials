@@ -29,6 +29,10 @@ jobs:
             CLANG_TIDY: true
             DISTRO: melodic
     env:
+      DOCKER_IMAGE: moveit/moveit:${{ matrix.env.IMAGE }}
+      # UPSTREAM_WORKSPACE: moveit.rosinstall
+      # AFTER_SETUP_UPSTREAM_WORKSPACE: vcs pull $BASEDIR/upstream_ws/src
+      BEFORE_TARGET_TEST_EMBED: ${{ matrix.env.IKFAST_TEST && 'set +u && source moveit_kinematics/test/test_ikfast_plugins.sh && set -u' || '' }}
       AFTER_SETUP_UPSTREAM_WORKSPACE_EMBED: |
         cd ~/ws_moveit/ && apt-get update && \
         set +u && rosenv && \
