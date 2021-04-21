@@ -29,7 +29,7 @@ jobs:
             CLANG_TIDY: true
             DISTRO: melodic
     env:
-      BEFORE_SETUP_TARGET_WORKSPACE_EMBED: |
+      AFTER_SETUP_UPSTREAM_WORKSPACE_EMBED: |
         cd ~/ws_moveit/ && apt-get update && \
         set +u && rosenv && \
         catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release && source ~/ws_moveit/devel/setup.bash && set -u
