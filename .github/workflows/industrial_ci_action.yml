@@ -16,27 +16,23 @@ jobs:
     strategy:
       matrix:
         env:
-          - IMAGE: master-ci
-            CCOV: true
-            CATKIN_LINT: false
-          - IMAGE: master-ci-shadow-fixed
+          - IMAGE: master-source
             CCOV: true
             CATKIN_LINT: true
             DISTRO: melodic
-          - IMAGE: noetic-ci
+          - IMAGE: noetic-source
             CCOV: true
             CATKIN_LINT: true
             DISTRO: noetic
-          - IMAGE: melodic-ci
+          - IMAGE: melodic-source
             IKFAST_TEST: false
             CLANG_TIDY: true
             DISTRO: melodic
     env:
-      DOCKER_IMAGE: moveit/moveit:${{ matrix.env.IMAGE }}
-      UPSTREAM_WORKSPACE: moveit.rosinstall
-      AFTER_SETUP_UPSTREAM_WORKSPACE: vcs pull $BASEDIR/upstream_ws/src
-      # BEFORE_TARGET_TEST_EMBED: ${{ matrix.env.IKFAST_TEST && 'set +u && source moveit_kinematics/test/test_ikfast_plugins.sh && set -u' || '' }}
-      # BEFORE_SETUP_TARGET_WORKSPACE_EMBED: |
+      BEFORE_SETUP_TARGET_WORKSPACE_EMBED: |
+        cd ~/ws_moveit/ && apt-get update && \
+        set +u && rosenv && \
+        catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release && source ~/ws_moveit/devel/setup.bash && set -u
       AFTER_RUN_TARGET_TEST: ${{ matrix.env.CCOV && './.ci.prepare_codecov' || '' }}
       TARGET_CMAKE_ARGS: >
         -DCMAKE_BUILD_TYPE=${{ matrix.env.CCOV && 'RelWithDebInfo' || 'Release'}}

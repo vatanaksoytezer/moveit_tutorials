@@ -9,7 +9,7 @@ on:
 jobs:
   deploy-website:
     name: Deploy Website
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16.04
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
