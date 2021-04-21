@@ -24,10 +24,10 @@ jobs:
             CCOV: true
             CATKIN_LINT: true
             DISTRO: noetic
-          - IMAGE: melodic-source
-            IKFAST_TEST: false
-            CLANG_TIDY: true
-            DISTRO: melodic
+          # - IMAGE: melodic-source
+          #   IKFAST_TEST: false
+          #   CLANG_TIDY: true
+          #   DISTRO: melodic
     env:
       DOCKER_IMAGE: moveit/moveit:${{ matrix.env.IMAGE }}
       # UPSTREAM_WORKSPACE: moveit.rosinstall
