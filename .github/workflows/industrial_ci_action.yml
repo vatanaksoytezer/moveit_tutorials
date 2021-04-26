@@ -20,10 +20,10 @@ jobs:
             CCOV: true
             CATKIN_LINT: true
             DISTRO: melodic
-          - IMAGE: noetic-source
-            CCOV: true
-            CATKIN_LINT: true
-            DISTRO: noetic
+          # - IMAGE: noetic-source
+          #   CCOV: true
+          #   CATKIN_LINT: true
+          #   DISTRO: noetic
           # - IMAGE: melodic-source
           #   IKFAST_TEST: false
           #   CLANG_TIDY: true
@@ -33,7 +33,7 @@ jobs:
       # UPSTREAM_WORKSPACE: moveit.rosinstall
       # AFTER_SETUP_UPSTREAM_WORKSPACE: vcs pull $BASEDIR/upstream_ws/src
       BEFORE_TARGET_TEST_EMBED: ${{ matrix.env.IKFAST_TEST && 'set +u && source moveit_kinematics/test/test_ikfast_plugins.sh && set -u' || '' }}
-      AFTER_SETUP_UPSTREAM_WORKSPACE_EMBED: |
+      BEFORE_INSTALL_TARGET_DEPENDENCIES_EMBED: |
         cd ~/ws_moveit/ && apt-get update && \
         set +u && rosenv && \
         catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release && source ~/ws_moveit/devel/setup.bash && set -u
