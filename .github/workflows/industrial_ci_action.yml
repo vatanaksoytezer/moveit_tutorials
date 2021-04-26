@@ -38,6 +38,7 @@ jobs:
         set +u && source /opt/ros/$ROS_DISTRO/setup.bash && \
         catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release && source ~/ws_moveit/devel/setup.bash && set -u
       AFTER_RUN_TARGET_TEST: ${{ matrix.env.CCOV && './.ci.prepare_codecov' || '' }}
+      BEFORE_BUILD_TARGET_WORKSPACE_EMBED: set +u && source ~/ws_moveit/devel/setup.bash && set -u
       TARGET_CMAKE_ARGS: >
         -DCMAKE_BUILD_TYPE=${{ matrix.env.CCOV && 'RelWithDebInfo' || 'Release'}}
         ${{ matrix.env.CCOV && '-DCMAKE_CXX_FLAGS="--coverage" --no-warn-unused-cli' || '' }}
