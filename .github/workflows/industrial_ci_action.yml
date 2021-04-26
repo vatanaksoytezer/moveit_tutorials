@@ -35,7 +35,7 @@ jobs:
       BEFORE_TARGET_TEST_EMBED: ${{ matrix.env.IKFAST_TEST && 'set +u && source moveit_kinematics/test/test_ikfast_plugins.sh && set -u' || '' }}
       BEFORE_INSTALL_TARGET_DEPENDENCIES_EMBED: |
         cd ~/ws_moveit/ && apt-get update && \
-        set +u && rosenv && \
+        set +u && source /opt/ros/$ROS_DISTRO/setup.bash && \
         catkin build --cmake-args -DCMAKE_BUILD_TYPE=Release && source ~/ws_moveit/devel/setup.bash && set -u
       AFTER_RUN_TARGET_TEST: ${{ matrix.env.CCOV && './.ci.prepare_codecov' || '' }}
       TARGET_CMAKE_ARGS: >
