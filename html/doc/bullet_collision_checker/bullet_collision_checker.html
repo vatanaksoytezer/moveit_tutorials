@@ -875,8 +875,11 @@ Left: robot in configuration 1. Right: robot in configuration 2.</div>
 <div class="section" id="changing-the-collision-detector-to-bullet">
 <h3>Changing the collision detector to Bullet<a class="headerlink" href="#changing-the-collision-detector-to-bullet" title="Permalink to this headline">¶</a></h3>
 <p>The active collision detector is set from the planning scene using the specific collision detector allocator for
-Bullet.</p>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">g_planning_scene</span><span class="o">-&gt;</span><span class="n">setActiveCollisionDetector</span><span class="p">(</span><span class="n">collision_detection</span><span class="o">::</span><span class="n">CollisionDetectorAllocatorBullet</span><span class="o">::</span><span class="n">create</span><span class="p">());</span>
+Bullet. The second argument indicates that Bullet will be the exclusive collision detection algorithm; the
+default FCL will not be available anymore. Having one exclusive collision detection algorithm helps performance
+a bit and is much more common.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">g_planning_scene</span><span class="o">-&gt;</span><span class="n">setActiveCollisionDetector</span><span class="p">(</span><span class="n">collision_detection</span><span class="o">::</span><span class="n">CollisionDetectorAllocatorBullet</span><span class="o">::</span><span class="n">create</span><span class="p">(),</span>
+                                             <span class="nb">true</span> <span class="cm">/* exclusive */</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>For understanding the interactive interactive_robot, please refer to the Visualizing Collisions tutorial.</p>
@@ -887,7 +890,8 @@ Bullet.</p>
 again set as the active collision detector.</p>
 <div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">robot_model</span><span class="o">::</span><span class="n">RobotModelPtr</span> <span class="n">robot_model</span> <span class="o">=</span> <span class="n">moveit</span><span class="o">::</span><span class="n">core</span><span class="o">::</span><span class="n">loadTestingRobotModel</span><span class="p">(</span><span class="s">&quot;panda&quot;</span><span class="p">);</span>
 <span class="k">auto</span> <span class="n">planning_scene</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_shared</span><span class="o">&lt;</span><span class="n">planning_scene</span><span class="o">::</span><span class="n">PlanningScene</span><span class="o">&gt;</span><span class="p">(</span><span class="n">robot_model</span><span class="p">);</span>
-<span class="n">planning_scene</span><span class="o">-&gt;</span><span class="n">setActiveCollisionDetector</span><span class="p">(</span><span class="n">collision_detection</span><span class="o">::</span><span class="n">CollisionDetectorAllocatorBullet</span><span class="o">::</span><span class="n">create</span><span class="p">());</span>
+<span class="n">planning_scene</span><span class="o">-&gt;</span><span class="n">setActiveCollisionDetector</span><span class="p">(</span><span class="n">collision_detection</span><span class="o">::</span><span class="n">CollisionDetectorAllocatorBullet</span><span class="o">::</span><span class="n">create</span><span class="p">(),</span>
+                                           <span class="cm">/* exclusive = */</span> <span class="nb">true</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>The box is added and the robot brought into its position.</p>

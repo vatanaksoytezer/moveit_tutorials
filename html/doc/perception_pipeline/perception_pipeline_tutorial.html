@@ -870,8 +870,8 @@ Once properly configured, you should see something like this in RViz:</p>
 <li><em>point_cloud_topic</em>: This specifies the topic to listen on for a point cloud.</li>
 <li><em>max_range</em>: (in m) Points further than this will not be used.</li>
 <li><em>point_subsample</em>: Choose one of every <em>point_subsample</em> points.</li>
-<li><em>padding_offset</em>: The size of the padding (in cm).</li>
-<li><em>padding_scale</em>: The scale of the padding.</li>
+<li><em>padding_scale</em>: Should always be &gt;= 1.0. Scale up collision shapes in the scene before excluding them from the octomap.</li>
+<li><em>padding_offset</em>: Absolute padding (in m) around scaled collision shapes when excluding them from the octomap.</li>
 <li><em>filtered_cloud_topic</em>: The topic on which the filtered cloud will be published (mainly for debugging). The filtering cloud is the resultant cloud after self-filtering has been performed.</li>
 </ul>
 </div>
@@ -904,8 +904,8 @@ Save this file in the config folder in the robot’s moveit_config package with 
 <li><em>near_clipping_plane_distance</em>: The minimum distance before lack of visibility.</li>
 <li><em>far_clipping_plane_distance</em>: The maximum distance before lack of visibility.</li>
 <li><em>shadow_threshold</em>: The minimum brightness of the shadow map below an entity for its dynamic shadow to be visible</li>
-<li><em>padding_offset</em>: The size of the padding (in cm).</li>
-<li><em>padding_scale</em>: The scale of the padding.</li>
+<li><em>padding_scale</em>: Should always be &gt;= 1.0. Scale up collision shapes in the scene before excluding them from the octomap.</li>
+<li><em>padding_offset</em>: Absolute padding (in m) around scaled collision shapes when excluding them from the octomap.</li>
 <li><em>filtered_cloud_topic</em>: The topic on which the filtered cloud will be published (mainly for debugging). The filtering cloud is the resultant cloud after self-filtering has been performed.</li>
 </ul>
 </div>
