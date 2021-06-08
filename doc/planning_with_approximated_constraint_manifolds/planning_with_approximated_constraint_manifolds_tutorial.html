@@ -465,6 +465,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../bullet_collision_checker/bullet_collision_checker.html#launch-file">Launch file</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../mesh_filter/mesh_filter_tutorial.html">Mesh Filter with UR5 and Kinect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../mesh_filter/mesh_filter_tutorial.html#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mesh_filter/mesh_filter_tutorial.html#running-the-demo">Running the Demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mesh_filter/mesh_filter_tutorial.html#how-to-add-sensor-to-arm-in-simulation">How to add sensor to arm in simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mesh_filter/mesh_filter_tutorial.html#references">References</a></li>
+</ul>
+</li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../setup_assistant/setup_assistant_tutorial.html">MoveIt Setup Assistant</a><ul>
@@ -620,6 +627,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../custom_constraint_samplers/custom_constraint_samplers_tutorial.html#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../custom_constraint_samplers/custom_constraint_samplers_tutorial.html#getting-started">Getting Started</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../custom_constraint_samplers/custom_constraint_samplers_tutorial.html#creating-a-constraint-sampler">Creating a constraint sampler</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../planning_constraints/planning_constraints.html">Representation and Evaluation of Constraints</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../planning_constraints/planning_constraints.html#see-also">See Also</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../ompl_interface/ompl_interface_tutorial.html">OMPL Planner</a><ul>
@@ -780,6 +791,19 @@
 <li class="toctree-l2"><a class="reference internal" href="../tests/tests_tutorial.html#code-coverage">Code Coverage</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../test_debugging/test_debugging_tutorial.html">Debugging Tests</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../test_debugging/test_debugging_tutorial.html#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../test_debugging/test_debugging_tutorial.html#ci-failures">CI Failures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../test_debugging/test_debugging_tutorial.html#launch-docker-environment">Launch Docker Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../test_debugging/test_debugging_tutorial.html#setup-environment">Setup Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../test_debugging/test_debugging_tutorial.html#checkout-code">Checkout Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../test_debugging/test_debugging_tutorial.html#install-dependencies">Install Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../test_debugging/test_debugging_tutorial.html#configure-and-build">Configure and Build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../test_debugging/test_debugging_tutorial.html#build-the-tests">Build the Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../test_debugging/test_debugging_tutorial.html#run-the-tests">Run the Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../test_debugging/test_debugging_tutorial.html#run-one-test">Run One Test</a></li>
+</ul>
+</li>
 </ul>
 
           
@@ -832,9 +856,8 @@
 <h1>Planning with Approximated Constraint Manifolds<a class="headerlink" href="#planning-with-approximated-constraint-manifolds" title="Permalink to this headline">¶</a></h1>
 <p>OMPL supports custom constraints to enable planning trajectories that follow a desired behavior.
 Constraints can be defined in joint space and Cartesian space where the latter is either orientation or position based.
-While planning a trajectory each joint state needs to follow all of the set constraints, which is performed by rejection sampling by default.
-This however might lead to very long planning times, especially when the constraints are very restrictive and the rejection rate is correspondingly high.</p>
-<p><a class="reference external" href="http://ioan.sucan.ro/files/pubs/constraints_iros2012.pdf">Sucan et al</a> present an approach where they compute an approximation of the constraint manifold beforehand and perform trajectory planning in that.
+While planning a trajectory, each joint state needs to follow all of the set constraints, which is performed by rejection sampling by default. For more information see <a class="reference external" href="../planning_constraints/planning_constraints.html">Representation and Evaluation of Constraints</a>.</p>
+<p>Rejection sampling for each joint state might lead to very long planning times, especially when the constraints are very restrictive and the rejection rate is correspondingly high. <a class="reference external" href="http://ioan.sucan.ro/files/pubs/constraints_iros2012.pdf">Sucan et al</a> present an approach where they compute an approximation of the constraint manifold beforehand and perform trajectory planning in that.
 The OMPL plugin contains the functionality to do that for a given set of constraints and save it in a database.
 In later instances the database can be loaded to use for constrained planning with any OMPL planner which strongly reduces planning time.</p>
 <p>This tutorial includes the steps on how to construct the constraint approximation database and on how to use it for constrained trajectory planning.
@@ -845,8 +868,8 @@ For more information on how to plan with path constraints in general, take a loo
 This loads the constraint definition (in a format explained below) from the ROS parameter server and outputs the state database to a given directory.</p>
 <div class="section" id="defining-constraints">
 <h3>Defining constraints<a class="headerlink" href="#defining-constraints" title="Permalink to this headline">¶</a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">generate_state_database</span></code> executable reads constraints from ROS parameters on <code class="docutils literal notranslate"><span class="pre">/constraints</span></code>, in a more compact format that a complete ROS message.
-You can define these in <code class="docutils literal notranslate"><span class="pre">rosparam</span></code> to be loaded together in a file, eg. <code class="docutils literal notranslate"><span class="pre">X_moveit_config/config/constraints.yaml</span></code>:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">generate_state_database</span></code> executable reads constraints from ROS parameters on <code class="docutils literal notranslate"><span class="pre">/constraints</span></code>, in a more compact format that a complete ROS message.</p>
+<p>You can define these in <code class="docutils literal notranslate"><span class="pre">rosparam</span></code> to be loaded together in a file, eg. <code class="docutils literal notranslate"><span class="pre">X_moveit_config/config/constraints.yaml</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">path_constraint</span><span class="p">:</span>
   <span class="n">name</span><span class="p">:</span> <span class="n">some_constraints</span>
   <span class="n">constraints</span><span class="p">:</span>
@@ -883,10 +906,10 @@ You can define these in <code class="docutils literal notranslate"><span class="
 </div>
 <div class="section" id="positionconstraint">
 <h4>PositionConstraint<a class="headerlink" href="#positionconstraint" title="Permalink to this headline">¶</a></h4>
-<p>A <code class="docutils literal notranslate"><span class="pre">PositionConstraint</span></code> constraints the Cartesian positions allowed for a (position relative to a) link.
-<code class="docutils literal notranslate"><span class="pre">target_offset</span></code> is that relative position w.r.t. a link, e.g., the tip of the end-effector relative to its mounting point or other origin definition.
+<p>A <code class="docutils literal notranslate"><span class="pre">PositionConstraint</span></code> constrains the Cartesian positions allowed for a (position relative to a) link.</p>
+<p><code class="docutils literal notranslate"><span class="pre">target_offset</span></code> is that relative position w.r.t. a link, e.g., the tip of the end-effector relative to its mounting point or other origin definition.
 This region (boxes only in this compact definition) is compactly defined by specifying the upper and lower bounds along each axis.</p>
-<p>For example:</p>
+<p>For example (in YAML format):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">position</span>
   <span class="n">frame_id</span><span class="p">:</span> <span class="n">base_link</span>
   <span class="n">link_name</span><span class="p">:</span> <span class="n">gripper_link</span>
